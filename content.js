@@ -18,29 +18,31 @@ class Page {
 
 	setButton() {
 		this.ready(() => {
-			this.tableList.forEach((table) => {
-				table.style.position = "relative";
-				const img = document.createElement('img');
-				img.style.width = "1rem";
-				img.style.height = "1rem";
-				img.style.padding = 0;
-				img.style.background = 'none'
-				img.style.position = "absolute";
-				img.style.top = ".5rem";
-				img.style.right = ".5rem";
-				img.style.cursor = "pointer";
-				img.classList.add('button');
-				img.classList.add('table2csv');
-				img.src = '//upload.wikimedia.org/wikipedia/commons/e/e8/Microsoft_Office_Excel_%282013%E2%80%932018%29.svg';
-				img.addEventListener('click', (e) => {
-					this.table2csv({
-						head: this.parse(table, 'head'),
-						body: this.parse(table, 'body')
-					});
-				})
-				table.appendChild(img);
+			if (this.tableList.length) {
+				this.tableList.forEach((table) => {
+					table.style.position = "relative";
+					const img = document.createElement('img');
+					img.style.width = "1rem";
+					img.style.height = "1rem";
+					img.style.padding = 0;
+					img.style.background = 'none'
+					img.style.position = "absolute";
+					img.style.top = ".5rem";
+					img.style.right = ".5rem";
+					img.style.cursor = "pointer";
+					img.classList.add('button');
+					img.classList.add('table2csv');
+					img.src = '//upload.wikimedia.org/wikipedia/commons/e/e8/Microsoft_Office_Excel_%282013%E2%80%932018%29.svg';
+					img.addEventListener('click', (e) => {
+						this.table2csv({
+							head: this.parse(table, 'head'),
+							body: this.parse(table, 'body')
+						});
+					})
+					table.appendChild(img);
 
-			});
+				});
+			} 
 		})
 	}
 
