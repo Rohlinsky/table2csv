@@ -34,8 +34,8 @@ class Page {
 				img.src = '//upload.wikimedia.org/wikipedia/commons/e/e8/Microsoft_Office_Excel_%282013%E2%80%932018%29.svg';
 				img.addEventListener('click', (e) => {
 					this.table2csv({
-						head: this.parseTableHead(table),
-						body: this.parseTableBody(table)
+						head: this.parse(table, 'head'),
+						body: this.parse(table, 'body')
 					});
 				})
 				table.appendChild(img);
@@ -44,38 +44,35 @@ class Page {
 		})
 	}
 
-	parseTableHead(table) {
-		if (!table.querySelector('thead')) return [];
-		const head = table.querySelector('thead');
-		const headRows = head.querySelectorAll('tr');
-		const columnsNames = [];
-		if (headRows.length) {
-			headRows.forEach((td, index) => {
-				const tdl = td.querySelectorAll('th');
-				columnsNames.push([]);
-				tdl.forEach((th) => {
-					columnsNames[index].push(th.innerText);
+	parse(table, part) {
+		let where = '';
+		let el = '';
+		switch (part) {
+			case 'head':
+				where = 'thead';
+				el = 'th';
+				break;
+			case 'body':
+				where = 'tbody';
+				el = 'td';
+				break;
+			default:
+				return [];
+		}
+		if (!table.querySelector(where)) return [];
+		const from = table.querySelector(where);
+		const rows = from.querySelectorAll('tr');
+		const columns = [];
+		if (rows.length) {
+			rows.forEach((td, index) => {
+				const tdl = td.querySelectorAll(el);
+				columns.push([]);
+				tdl.forEach((tx) => {
+					columns[index].push(tx.innerText);
 				});
 			});
 		}
-		return columnsNames;
-	}
-
-	parseTableBody(table) {
-		if (!table.querySelector('tbody')) return [];
-		const body = table.querySelector('tbody');
-		const bodyRows = body.querySelectorAll('tr');
-		const columnsData = [];
-		if (bodyRows.length) {
-			bodyRows.forEach((td, index) => {
-				const tdl = td.querySelectorAll('td');
-				columnsData.push([]);
-				tdl.forEach((td) => {
-					columnsData[index].push(td.innerText);
-				});
-			});
-		}
-		return columnsData;
+		return columns;
 	}
 
 	table2csv(tdata) {
