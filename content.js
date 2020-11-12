@@ -45,30 +45,36 @@ class Page {
 	}
 
 	parseTableHead(table) {
+		if (!table.querySelector('thead')) return [];
 		const head = table.querySelector('thead');
 		const headRows = head.querySelectorAll('tr');
 		const columnsNames = [];
-		headRows.forEach((td, index) => {
-			const tdl = td.querySelectorAll('th');
-			columnsNames.push([]);
-			tdl.forEach((th) => {
-				columnsNames[index].push(th.innerText);
+		if (headRows.length) {
+			headRows.forEach((td, index) => {
+				const tdl = td.querySelectorAll('th');
+				columnsNames.push([]);
+				tdl.forEach((th) => {
+					columnsNames[index].push(th.innerText);
+				});
 			});
-		});
+		}
 		return columnsNames;
 	}
 
 	parseTableBody(table) {
+		if (!table.querySelector('tbody')) return [];
 		const body = table.querySelector('tbody');
 		const bodyRows = body.querySelectorAll('tr');
 		const columnsData = [];
-		bodyRows.forEach((td, index) => {
-			const tdl = td.querySelectorAll('td');
-			columnsData.push([]);
-			tdl.forEach((td) => {
-				columnsData[index].push(td.innerText);
+		if (bodyRows.length) {
+			bodyRows.forEach((td, index) => {
+				const tdl = td.querySelectorAll('td');
+				columnsData.push([]);
+				tdl.forEach((td) => {
+					columnsData[index].push(td.innerText);
+				});
 			});
-		});
+		}
 		return columnsData;
 	}
 
