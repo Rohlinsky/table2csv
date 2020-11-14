@@ -3,16 +3,16 @@
     "version": "1.0",
     "description": "Convert any html table to csv",
     "background": {
-		"scripts": ["background.js"],
+		"scripts": ["background/main.js"],
 		"persistent": true
     },
     "content_scripts": [{
         "matches": ["*://*/*"],
-        "js": ["content.js"]
+        "js": ["content/parser/toCSV.js", "content/parser/toXCL.js", "content/main.js"]
     }],
-    "options_page": "options.html",
+    "options_page": "options/index.html",
     "browser_action": {
-        "default_popup": "popup.html",
+        "default_popup": "popup/index.html",
         "default_icon": {
             "16": "images/favicon.png",
             "32": "images/favicon.png",
