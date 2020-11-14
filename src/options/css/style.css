@@ -2,8 +2,10 @@ body {
   margin: 0;
   font-size: 18px;
 }
+
 body * {
-  color: #000000;
+  color: #000;
+
 }
 
 body header,
@@ -11,6 +13,7 @@ body main,
 body footer {
   width: calc(960px - 8rem);
   margin: 0 auto;
+  background: #fff;
   border: 1px solid transparent;
 }
 
@@ -24,7 +27,46 @@ body main {
   min-height: 78vh;
 }
 
+body main div.set {
+  margin-bottom: 1rem;
+  padding: 2rem;
+}
+
+body main div.set input,
+body main div.set select {
+  width: 12.5rem;
+  margin-left: 1rem;
+  padding: .2rem 0;
+  line-height: 1rem;
+}
+
+body main div.set input {
+  padding-left: .4rem;
+}
+
+body main div.set select {
+  padding-left: .2rem;
+}
+
+body main div.set label {
+  margin-bottom: 0;
+}
+
 body footer {
   min-height: 10vh;
   border-top: 1px solid #009c64;
+}
+
+
+@media screen and (min-width: 960px) {
+    body main div.set {
+      width: 50%;
+      display: inline-block;
+    }
+    body main > div:nth-child(odd) {
+      float: left;
+    }
+    body main > div:nth-child(even) {
+      float: right;
+    }
 }

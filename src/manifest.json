@@ -2,6 +2,7 @@
     "name": "table2csv",
     "version": "1.0",
     "description": "Convert any html table to csv",
+    "permissions": ["storage"],
     "background": {
 		"scripts": ["background/main.js"],
 		"persistent": true
