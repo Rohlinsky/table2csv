@@ -24,7 +24,9 @@ class Page {
       if (this.tableList && this.tableList.length) {
         this.tableList.forEach((table) => {
           table.style.position = "relative";
+
           const img = document.createElement('img');
+
           img.style.width = "1rem";
           img.style.height = "1rem";
           img.style.padding = 0;
@@ -75,6 +77,7 @@ class Page {
       const element = document.createElement("a");
       const file = new Blob([data], {type: 'text/plain'});
       const file_name = (default_file_name) ? default_file_name : "table";
+
       element.href = URL.createObjectURL(file);
       element.download = file_name + "." + extension;
       document.body.appendChild(element); // Required for this to work in FireFox
