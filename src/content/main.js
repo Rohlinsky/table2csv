@@ -37,12 +37,31 @@ class Page {
           img.classList.add('table2csv');
           img.src = '//upload.wikimedia.org/wikipedia/commons/e/e8/Microsoft_Office_Excel_%282013%E2%80%932018%29.svg';
           img.addEventListener('click', (e) => {
-            const data = this.table2csv.convert({
-              head: this.table2csv.parse(table, 'head'),
-              body: this.table2csv.parse(table, 'body')
-            });
+            chrome.storage.sync.get('default_file_format', ({ default_file_format }) => {
+              let file_format = 1;
+              let data = null;
 
-            this.toFile(data);
+              if (default_file_format) {
+                file_format = default_file_format;
+              }
+
+              switch (file_format) {
+                case 1: 
+                  data = this.table2csv.convert({
+                    head: this.table2csv.parse(table, 'head'),
+                    body: this.table2csv.parse(table, 'body')
+                  });
+                  break;
+                default:
+                  data = this.table2csv.convert({
+                    head: this.table2csv.parse(table, 'head'),
+                    body: this.table2csv.parse(table, 'body')
+                  });
+              }
+
+              this.toFile(data);
+
+            });
           })
           table.appendChild(img);
 
