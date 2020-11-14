@@ -6,6 +6,9 @@ class Page {
     // initiation data
     this.tables;
     this.setButton();
+    this.table2csv = new TableToCSV();
+    this.table2excell = new TableToEXCEL();
+
   }
 
   get tables() {
@@ -35,8 +38,8 @@ class Page {
           img.src = '//upload.wikimedia.org/wikipedia/commons/e/e8/Microsoft_Office_Excel_%282013%E2%80%932018%29.svg';
           img.addEventListener('click', (e) => {
             this.table2csv({
-              head: this.parse(table, 'head'),
-              body: this.parse(table, 'body')
+              head: this.table2csv.parse(table, 'head'),
+              body: this.table2csv.parse(table, 'body')
             });
           })
           table.appendChild(img);
@@ -46,6 +49,29 @@ class Page {
     })
   }
 
+  
+
+  toFile(data) {
+    const element = document.createElement("a");
+    const file = new Blob([data], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = "table.csv";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
+
+  ready(fn) {
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+        setTimeout(fn, 1);
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+  }
+}
+
+new Page();
+
+class TableToCSV {
   parse(table, part) {
     let where = '';
     let el = '';
@@ -87,23 +113,15 @@ class Page {
     });
     this.toFile(data);
   }
-
-  toFile(data) {
-    const element = document.createElement("a");
-    const file = new Blob([data], {type: 'text/plain'});
-    element.href = URL.createObjectURL(file);
-    element.download = "table.csv";
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
-  }
-
-  ready(fn) {
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-        setTimeout(fn, 1);
-    } else {
-        document.addEventListener("DOMContentLoaded", fn);
-    }
-  }
 }
 
-new Page();
+class TableToEXCEL {
+  exportF(elem) {
+    var table = document.getElementById("table");
+    var html = table.outerHTML;
+    var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+    elem.setAttribute("href", url);
+    elem.setAttribute("download", "export.xls"); // Choose the file name
+    return false;
+  }
+}
