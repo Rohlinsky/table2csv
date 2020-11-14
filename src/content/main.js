@@ -21,7 +21,7 @@ class Page {
 
   setButton() {
     this.ready(() => {
-      if (this.tableList.length) {
+      if (this.tableList && this.tableList.length) {
         this.tableList.forEach((table) => {
           table.style.position = "relative";
           const img = document.createElement('img');
