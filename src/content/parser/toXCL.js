@@ -1,10 +1,18 @@
 class TableToEXCEL {
-  exportF(elem) {
-    var table = document.getElementById("table");
-    var html = table.outerHTML;
-    var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
-    elem.setAttribute("href", url);
-    elem.setAttribute("download", "export.xls"); // Choose the file name
-    return false;
+  convert(data) {
+  	this.toFile(data);	
+  }
+
+  toFile(table, extension='xls') {
+    chrome.storage.sync.get('default_file_name', ({ default_file_name }) => {
+      const element = document.createElement("a");
+      const file = escape(table.outerHTML);
+      const file_name = (default_file_name) ? default_file_name : "table";
+
+	    element.href = 'data:application/vnd.ms-excel,' + file;
+	    element.download = file_name + "." + extension 
+      document.body.appendChild(element); 
+      element.click();
+    });
   }
 }

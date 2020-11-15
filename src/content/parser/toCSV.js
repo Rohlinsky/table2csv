@@ -46,6 +46,19 @@ class TableToCSV {
       data += el.join() + '\n';
     });
 
-    return data;
+    this.toFile(data);
+  }
+
+  toFile(data, extension='csv') {
+    chrome.storage.sync.get('default_file_name', ({ default_file_name }) => {
+      const element = document.createElement("a");
+      const file = new Blob([data], { type: 'text/plain' });
+      const file_name = (default_file_name) ? default_file_name : "table";
+
+      element.href = URL.createObjectURL(file);
+      element.download = file_name + "." + extension;
+      document.body.appendChild(element); // Required for this to work in FireFox
+      element.click();
+    });
   }
 }
