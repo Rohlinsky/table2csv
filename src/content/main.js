@@ -48,41 +48,30 @@ class Page {
               }
 
               switch (file_format) {
-                case 1: 
-                  data = this.table2csv.convert({
+                case 1:
+                  this.table2csv.convert({
                     head: this.table2csv.parse(table, 'head'),
                     body: this.table2csv.parse(table, 'body')
                   });
                   break;
+                case 2:
+                  this.table2excell.convert(table);
+                  break;
                 default:
-                  data = this.table2csv.convert({
+                  this.table2csv.convert({
                     head: this.table2csv.parse(table, 'head'),
                     body: this.table2csv.parse(table, 'body')
                   });
               }
 
-              this.toFile(data);
-
             });
-          })
+          });
+
           table.appendChild(img);
 
         });
       } 
     })
-  }
-
-  toFile(data, extension='csv') {
-    chrome.storage.sync.get('default_file_name', ({ default_file_name }) => {
-      const element = document.createElement("a");
-      const file = new Blob([data], {type: 'text/plain'});
-      const file_name = (default_file_name) ? default_file_name : "table";
-
-      element.href = URL.createObjectURL(file);
-      element.download = file_name + "." + extension;
-      document.body.appendChild(element); // Required for this to work in FireFox
-      element.click();
-    });
   }
 
   ready(fn) {
