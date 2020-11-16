@@ -40,12 +40,8 @@ class Page {
           img.src = '//upload.wikimedia.org/wikipedia/commons/e/e8/Microsoft_Office_Excel_%282013%E2%80%932018%29.svg';
           img.addEventListener('click', (e) => {
             chrome.storage.sync.get('default_file_format', ({ default_file_format }) => {
-              let file_format = 1;
+              let file_format = (default_file_format) ? default_file_format : 1;
               let data = null;
-
-              if (default_file_format) {
-                file_format = default_file_format;
-              }
 
               switch (file_format) {
                 case 1:
